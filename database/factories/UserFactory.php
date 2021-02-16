@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -32,16 +33,18 @@ class UserFactory extends Factory
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the user should have a personal organization.
      *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return $this
      */
-    public function unverified()
+    public function withPersonalOrganization()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
+        return $this->has(
+            Organization::factory()
+                ->state(function (array $attributes, User $user) {
+                    return ['name' => $user->name.'\'s Organization', 'user_id' => $user->id, 'personal_organization' => true];
+                }),
+            'ownedOrganizations'
+        );
     }
 }
