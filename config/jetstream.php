@@ -42,9 +42,9 @@ return [
     */
 
     'features' => [
-        // Features::termsAndPrivacyPolicy(),
-        // Features::profilePhotos(),
-        // Features::api(),
+        Features::termsAndPrivacyPolicy(),
+        Features::profilePhotos(),
+        Features::api(),
         Features::organizations(['invitations' => true]),
         Features::accountDeletion(),
     ],
