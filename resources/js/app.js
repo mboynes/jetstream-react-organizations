@@ -1,18 +1,16 @@
 require('./bootstrap');
 
 // Import modules...
-import { createApp, h } from 'vue';
-import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
+import { App } from '@inertiajs/inertia-react';
+import * as React from 'react';
+import { render } from 'react-dom';
 
 const el = document.getElementById('app');
 
-createApp({
-    render: () =>
-        h(InertiaApp, {
-            initialPage: JSON.parse(el.dataset.page),
-            resolveComponent: (name) => require(`./Pages/${name}`).default,
-        }),
-})
-    .mixin({ methods: { route } })
-    .use(InertiaPlugin)
-    .mount(el);
+render(
+  <App
+    initialPage={JSON.parse(el.dataset.page)}
+    resolveComponent={name => require(`./Pages/${name}`).default}
+  />,
+  el
+);
