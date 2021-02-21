@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { node, string } from 'prop-types';
+import { string } from 'prop-types';
 import classnames from 'classnames';
 
 const Button = ({ type = 'submit', className = '', ...props }) => {
@@ -25,11 +25,11 @@ const Button = ({ type = 'submit', className = '', ...props }) => {
     'transition',
     'ease-in-out',
     'duration-150',
-    className
+    className,
   );
 
   return (
-    <button type={type} className={mergedClasses} {...props} />
+    <button type={type === 'submit' ? 'submit' : 'button'} className={mergedClasses} {...props} />
   );
 };
 

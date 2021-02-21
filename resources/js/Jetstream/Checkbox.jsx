@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { bool, func, string } from 'prop-types';
+import { bool, func } from 'prop-types';
 
 const Checkbox = ({ checked, onChange, ...props }) => (
   <input

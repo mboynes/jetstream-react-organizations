@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
 import ValidationErrors from '@/Jetstream/ValidationErrors';
@@ -10,7 +10,9 @@ import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
 
 const ConfirmPassword = () => {
-  const { formRef, data, useField, status, submit } = useForm({ password: '' });
+  const {
+    formRef, data, useField, status, submit,
+  } = useForm({ password: '' });
   const isProcessing = status === 'processing';
   const [password, setPassword] = useField('password');
 
@@ -60,6 +62,6 @@ const ConfirmPassword = () => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 export default ConfirmPassword;

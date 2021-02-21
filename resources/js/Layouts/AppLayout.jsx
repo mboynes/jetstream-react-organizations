@@ -1,5 +1,6 @@
+/* eslint-disable max-len */
 import * as React from 'react';
-import PropTypes, { node } from 'prop-types';
+import { node } from 'prop-types';
 import classnames from 'classnames';
 import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
@@ -19,10 +20,10 @@ const AppLayout = ({ header = '', children }) => {
 
   const switchToOrganization = (organization) => {
     Inertia.put(route('current-organization.update'), {
-      'organization_id': organization.id
+      organization_id: organization.id,
     }, {
-      preserveState: false
-    })
+      preserveState: false,
+    });
   };
 
   const logout = () => {
@@ -57,7 +58,7 @@ const AppLayout = ({ header = '', children }) => {
               <div className="hidden sm:flex sm:items-center sm:ml-6">
                 <div className="ml-3 relative">
                   {/* Organizations Dropdown */}
-                  {!!jetstream.hasOrganizationFeatures ? (
+                  {jetstream.hasOrganizationFeatures ? (
                     <Dropdown
                       align="right"
                       width="60"
@@ -92,7 +93,7 @@ const AppLayout = ({ header = '', children }) => {
                                 </DropdownLink>
                               ) : null}
 
-                              <div className="border-t border-gray-100"></div>
+                              <div className="border-t border-gray-100" />
 
                               {/* Organization Switcher */}
                               <div className="block px-4 py-2 text-xs text-gray-400">
@@ -100,11 +101,16 @@ const AppLayout = ({ header = '', children }) => {
                               </div>
 
                               {user.all_organizations.map((organization) => (
-                                <form key={organization.id} onSubmit={withPreventDefault(() => switchToOrganization(organization))}>
+                                <form
+                                  key={organization.id}
+                                  onSubmit={withPreventDefault(
+                                    () => switchToOrganization(organization)
+                                  )}
+                                >
                                   <DropdownLink as="button">
                                     <div className="flex items-center">
-                                      {organization.id == user.current_organization_id ? (
-                                        <svg className="mr-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                      {organization.id === user.current_organization_id ? (
+                                        <svg className="mr-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                                       ) : null}
                                       <div>{organization.name}</div>
                                     </div>
@@ -127,7 +133,7 @@ const AppLayout = ({ header = '', children }) => {
                     trigger={(
                       <>
                         {jetstream.managesProfilePhotos ? (
-                          <button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                          <button type="button" className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
                             <img className="h-8 w-8 rounded-full object-cover" src={user.profile_photo_url} alt={user.name} />
                           </button>
                         ) : (
@@ -160,7 +166,7 @@ const AppLayout = ({ header = '', children }) => {
                           </DropdownLink>
                         ) : null}
 
-                        <div className="border-t border-gray-100"></div>
+                        <div className="border-t border-gray-100" />
 
                         {/* Authentication */}
                         <form onSubmit={withPreventDefault(logout)}>
@@ -176,10 +182,10 @@ const AppLayout = ({ header = '', children }) => {
 
               {/* Hamburger */}
               <div className="-mr-2 flex items-center sm:hidden">
-                <button onClick={() => setShowingNavigationDropdown((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                <button type="button" onClick={() => setShowingNavigationDropdown((s) => !s)} className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                   <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path className={classnames({ 'hidden': showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown })} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                    <path className={classnames({ 'hidden': !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown })} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                    <path className={classnames({ hidden: showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown })} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <path className={classnames({ hidden: !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown })} strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
@@ -187,7 +193,7 @@ const AppLayout = ({ header = '', children }) => {
           </div>
 
           {/* Responsive Navigation Menu */}
-          <div className={classnames({ 'block': showingNavigationDropdown, 'hidden': !showingNavigationDropdown }, 'sm:hidden')}>
+          <div className={classnames({ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }, 'sm:hidden')}>
             <div className="pt-2 pb-3 space-y-1">
               <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
                 Dashboard
@@ -230,7 +236,7 @@ const AppLayout = ({ header = '', children }) => {
                 {/* Organization Management */}
                 {jetstream.hasOrganizationFeatures ? (
                   <>
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-gray-200" />
 
                     <div className="block px-4 py-2 text-xs text-gray-400">
                       Manage Organization
@@ -245,7 +251,7 @@ const AppLayout = ({ header = '', children }) => {
                       Create New Organization
                     </ResponsiveNavLink>
 
-                    <div className="border-t border-gray-200"></div>
+                    <div className="border-t border-gray-200" />
 
                     {/* Organization Switcher */}
                     <div className="block px-4 py-2 text-xs text-gray-400">
@@ -257,7 +263,7 @@ const AppLayout = ({ header = '', children }) => {
                         <ResponsiveNavLink as="button">
                           <div className="flex items-center">
                             {organization.id === user.current_organization_id ? (
-                              <svg className="mr-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                              <svg className="mr-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                             ) : null}
                             <div>{organization.name}</div>
                           </div>
@@ -272,7 +278,7 @@ const AppLayout = ({ header = '', children }) => {
         </nav>
 
         {/* Page Heading */}
-        {!!header ? (
+        {header ? (
           <header className="bg-white shadow">
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               {header}

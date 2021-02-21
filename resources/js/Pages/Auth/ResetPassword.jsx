@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { string } from 'prop-types';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
 import ValidationErrors from '@/Jetstream/ValidationErrors';
@@ -11,12 +11,14 @@ import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
 
 const ResetPassword = ({ email, token }) => {
-  const { formRef, data, useField, status: formStatus, submit } = useForm({
+  const {
+    formRef, data, useField, status: formStatus, submit,
+  } = useForm({
     email,
     token,
     password: '',
     password_confirmation: '',
-});
+  });
   const isProcessing = formStatus === 'processing';
   const [formEmail, setFormEmail] = useField('email');
   const [password, setPassword] = useField('password');
@@ -89,7 +91,7 @@ const ResetPassword = ({ email, token }) => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 ResetPassword.propTypes = {
   email: string.isRequired,

@@ -1,16 +1,22 @@
 import * as React from 'react';
 import classnames from 'classnames';
+import { Inertia } from '@inertiajs/inertia';
+
+import handleKeyPress from '@/util/handleKeyPress';
+import useForm from '@/hooks/useForm';
+
 import ActionSection from '@/Jetstream/ActionSection';
 import DialogModal from '@/Jetstream/ConfirmationModal';
 import DangerButton from '@/Jetstream/DangerButton';
 import SecondaryButton from '@/Jetstream/SecondaryButton';
 import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
-import handleKeyPress from '@/util/handleKeyPress';
 
 const DeleteUserForm = (props) => {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = React.useState(false);
-  const { data, useField, isProcessing, submit, errors } = useForm({ password: '' });
+  const {
+    data, useField, isProcessing, submit, errors,
+  } = useForm({ password: '' });
   const [password, setPassword] = useField('password');
   const passwordRef = React.useRef(null);
 
@@ -33,7 +39,9 @@ const DeleteUserForm = (props) => {
       content={(
         <>
           <div className="max-w-xl text-sm text-gray-600">
-            Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.
+            Once your account is deleted, all of its resources and data will be
+            permanently deleted. Before deleting your account, please download
+            any data or information that you wish to retain.
           </div>
 
           <div className="mt-5">
@@ -49,12 +57,15 @@ const DeleteUserForm = (props) => {
             title="Delete Account"
             content={(
               <>
-                Are you sure you want to delete your account? Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.
+                Are you sure you want to delete your account? Once your account
+                is deleted, all of its resources and data will be permanently
+                deleted. Please enter your password to confirm you would like to
+                permanently delete your account.
 
                 <div className="mt-4">
                   <Input
                     type="password"
-                    ref={passwordRef}
+                    fieldRef={passwordRef}
                     className="mt-1 block w-3/4"
                     placeholder="Password"
                     value={password}
@@ -68,7 +79,7 @@ const DeleteUserForm = (props) => {
             )}
             footer={(
               <>
-                <SecondaryButton onClick={setConfirmingUserDeletion(false)}>
+                <SecondaryButton onClick={() => setConfirmingUserDeletion(false)}>
                   Never mind
                 </SecondaryButton>
                 {' '}

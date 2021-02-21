@@ -1,5 +1,9 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable max-len */
 import * as React from 'react';
-import { arrayOf, bool, number, shape, string } from 'prop-types';
+import {
+  arrayOf, bool, number, shape, string,
+} from 'prop-types';
 import classnames from 'classnames';
 import { Inertia } from '@inertiajs/inertia';
 import { usePage } from '@inertiajs/inertia-react';
@@ -60,7 +64,6 @@ const OrganizationMemberManager = ({
   const cancelOrganizationInvitation = (invitation) => {
     Inertia.delete(route('organization-invitations.destroy', invitation), {
       preserveScroll: true,
-      onFinish: () => resolve(),
     });
   };
 
@@ -73,7 +76,7 @@ const OrganizationMemberManager = ({
   };
 
   const updateRole = () => {
-    this.updateRoleForm.submit(new Promise((resolve) => (
+    updateRoleForm.submit(new Promise((resolve) => (
       Inertia.put(
         route('organization-members.update', [organization, state.managingRoleFor]),
         updateRoleForm.data,
@@ -104,7 +107,7 @@ const OrganizationMemberManager = ({
   );
 
   const removeOrganizationMember = () => {
-    this.removeOrganizationMemberForm.submit(new Promise((resolve) => (
+    removeOrganizationMemberForm.submit(new Promise((resolve) => (
       Inertia.delete(
         route('organization-members.destroy', [organization, state.organizationMemberBeingRemoved]),
         {
@@ -118,7 +121,7 @@ const OrganizationMemberManager = ({
     )));
   };
 
-  const displayableRole = (role) => availableRoles.find(r => r.key === role).name;
+  const displayableRole = (role) => availableRoles.find((r) => r.key === role).name;
 
   return (
     <div>
@@ -135,7 +138,8 @@ const OrganizationMemberManager = ({
               <>
                 <div className="col-span-6">
                   <div className="max-w-xl text-sm text-gray-600">
-                    Please provide the email address of the person you would like to add to this organization.
+                    Please provide the email address of the person you would
+                    like to add to this organization.
                   </div>
                 </div>
 
@@ -176,8 +180,8 @@ const OrganizationMemberManager = ({
                                 {role.name}
                               </div>
 
-                              {addOrganizationMemberForm.data.role == role.key ? (
-                                <svg className="ml-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                              {addOrganizationMemberForm.data.role === role.key ? (
+                                <svg className="ml-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                               ) : null}
                             </div>
 
@@ -228,6 +232,7 @@ const OrganizationMemberManager = ({
                       {/* Cancel Organization Invitation */}
                       {userPermissions.canRemoveOrganizationMembers ? (
                         <button
+                          type="button"
                           className="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
                           onClick={cancelOrganizationInvitation(invitation)}
                         >
@@ -265,6 +270,7 @@ const OrganizationMemberManager = ({
                       {/* Manage Organization Member Role */}
                       {userPermissions.canAddOrganizationMembers && availableRoles.length ? (
                         <button
+                          type="button"
                           className="ml-2 text-sm text-gray-400 underline"
                           onClick={manageRole(user)}
                         >
@@ -279,6 +285,7 @@ const OrganizationMemberManager = ({
                       {/* Leave Organization */}
                       {currentUser.id === user.id ? (
                         <button
+                          type="button"
                           className="cursor-pointer ml-6 text-sm text-red-500"
                           onClick={confirmLeavingOrganization}
                         >
@@ -289,6 +296,7 @@ const OrganizationMemberManager = ({
                       {/* Remove Organization Member */}
                       {userPermissions.canRemoveOrganizationMembers ? (
                         <button
+                          type="button"
                           className="cursor-pointer ml-6 text-sm text-red-500"
                           onClick={confirmOrganizationMemberRemoval(user)}
                         >
@@ -332,7 +340,7 @@ const OrganizationMemberManager = ({
                           </div>
 
                           {updateRoleForm.data.role === role.key ? (
-                            <svg className="ml-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg className="ml-2 h-5 w-5 text-green-400" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                           ) : null}
                         </div>
 
@@ -354,7 +362,7 @@ const OrganizationMemberManager = ({
               Never Mind
             </SecondaryButton>
             {' '}
-            <Button className="ml-2" onClick={updateRole} className={classnames({ 'opacity-25': updateRoleForm.isProcessing })} disabled={updateRoleForm.isProcessing}>
+            <Button onClick={updateRole} className={classnames('ml-2', { 'opacity-25': updateRoleForm.isProcessing })} disabled={updateRoleForm.isProcessing}>
               Save
             </Button>
           </>

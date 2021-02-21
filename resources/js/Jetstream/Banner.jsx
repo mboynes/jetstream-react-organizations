@@ -22,7 +22,7 @@ const Banner = () => {
               <span
                 className={classnames(
                   'flex p-2 rounded-lg',
-                  { 'bg-indigo-600': style === 'success', 'bg-red-600': style === 'danger' }
+                  { 'bg-indigo-600': style === 'success', 'bg-red-600': style === 'danger' },
                 )}
               >
                 {style === 'success' ? (
@@ -48,7 +48,7 @@ const Banner = () => {
                 type="button"
                 className={classnames(
                   '-mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition ease-in-out duration-150',
-                  { 'hover:bg-indigo-600 focus:bg-indigo-600': style === 'success', 'hover:bg-red-600 focus:bg-red-600': style === 'danger' }
+                  { 'hover:bg-indigo-600 focus:bg-indigo-600': style === 'success', 'hover:bg-red-600 focus:bg-red-600': style === 'danger' },
                 )}
                 ariaLabel="Dismiss"
                 onClick={() => setShow(false)}

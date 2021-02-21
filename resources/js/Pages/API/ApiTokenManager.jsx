@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import * as React from 'react';
-import PropTypes from 'prop-types';
+import {
+  arrayOf, number, shape, string,
+} from 'prop-types';
 import classnames from 'classnames';
 import { Inertia } from '@inertiajs/inertia';
 import { usePage } from '@inertiajs/inertia-react';
@@ -17,8 +20,8 @@ import InputError from '@/Jetstream/InputError';
 import Label from '@/Jetstream/Label';
 import SecondaryButton from '@/Jetstream/SecondaryButton';
 import SectionBorder from '@/Jetstream/SectionBorder';
-import useForm from '../../hooks/useForm';
-
+import useForm from '@/hooks/useForm';
+import useSlicedState from '@/hooks/useSlicedState';
 
 const ApiTokenManager = ({
   tokens,
@@ -34,7 +37,7 @@ const ApiTokenManager = ({
   });
 
   const updateApiTokenForm = useForm({
-      permissions: [],
+    permissions: [],
   });
 
   const deleteApiTokenForm = useForm();
@@ -87,10 +90,10 @@ const ApiTokenManager = ({
   const deleteApiToken = () => (
     deleteApiTokenForm.submit(new Promise((resolve) => (
       Inertia.delete(route('api-tokens.destroy', state.apiTokenBeingDeleted), {
-          preserveScroll: true,
-          preserveState: true,
-          onSuccess: () => updateState({ apiTokenBeingDeleted: null }),
-          onFinish: resolve,
+        preserveScroll: true,
+        preserveState: true,
+        onSuccess: () => updateState({ apiTokenBeingDeleted: null }),
+        onFinish: resolve,
       })
     )))
   );
@@ -122,16 +125,16 @@ const ApiTokenManager = ({
           <>
             {/* Token Name */}
             <div className="col-span-6 sm:col-span-4">
-                <Label htmlFor="name" value="Name" />
-                <Input
-                  id="name"
-                  type="text"
-                  className="mt-1 block w-full"
-                  value={createApiTokenForm.data.name}
-                  onChange={(e) => createApiTokenForm.setField('name', e.target.value)}
-                  autoFocus
-                />
-                <InputError message={createApiTokenForm.errors.name} className="mt-2" />
+              <Label htmlFor="name" value="Name" />
+              <Input
+                id="name"
+                type="text"
+                className="mt-1 block w-full"
+                value={createApiTokenForm.data.name}
+                onChange={(e) => createApiTokenForm.setField('name', e.target.value)}
+                autoFocus
+              />
+              <InputError message={createApiTokenForm.errors.name} className="mt-2" />
             </div>
 
             {/* Token Permissions */}
@@ -164,16 +167,16 @@ const ApiTokenManager = ({
         actions={(
           <>
             <ActionMessage on={createApiTokenForm.data.recentlySuccessful} className="mr-3">
-                Created.
+              Created.
             </ActionMessage>
             {' '}
             <Button
               className={classnames({ 'opacity-25': createApiTokenForm.isProcessing })}
               disabled={createApiTokenForm.isProcessing}
-              >
-                Create
-              </Button>
-            </>
+            >
+              Create
+            </Button>
+          </>
         )}
       />
 
@@ -189,37 +192,39 @@ const ApiTokenManager = ({
               content={(
                 <div className="space-y-6">
                   {/* API Token List */}
-                    {tokens.map((token) => (
-                      <div className="flex items-center justify-between" key={token.id}>
-                        <div>
-                          {token.name}
-                        </div>
-
-                        <div className="flex items-center">
-                          {token.last_used_ago ? (
-                            <div className="text-sm text-gray-400">
-                              {`Last used ${token.last_used_ago}`}
-                            </div>
-                          ) : null}
-
-                          {availablePermissions.length > 0 ? (
-                            <button
-                              className="cursor-pointer ml-6 text-sm text-gray-400 underline"
-                              onClick={() => manageApiTokenPermissions(token)}
-                            >
-                              Permissions
-                            </button>
-                          ) : null}
-
-                          <button
-                            className="cursor-pointer ml-6 text-sm text-red-500"
-                            onClick={() => confirmApiTokenDeletion(token)}
-                          >
-                            Delete
-                          </button>
-                        </div>
+                  {tokens.map((token) => (
+                    <div className="flex items-center justify-between" key={token.id}>
+                      <div>
+                        {token.name}
                       </div>
-                    ))}
+
+                      <div className="flex items-center">
+                        {token.last_used_ago ? (
+                          <div className="text-sm text-gray-400">
+                            {`Last used ${token.last_used_ago}`}
+                          </div>
+                        ) : null}
+
+                        {availablePermissions.length > 0 ? (
+                          <button
+                            type="button"
+                            className="cursor-pointer ml-6 text-sm text-gray-400 underline"
+                            onClick={() => manageApiTokenPermissions(token)}
+                          >
+                            Permissions
+                          </button>
+                        ) : null}
+
+                        <button
+                          type="button"
+                          className="cursor-pointer ml-6 text-sm text-red-500"
+                          onClick={() => confirmApiTokenDeletion(token)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             />
@@ -235,7 +240,7 @@ const ApiTokenManager = ({
         content={(
           <>
             <div>
-              Please copy your new API token. For your security, it won't be shown again.
+              Please copy your new API token. For your security, it won&apos;t be shown again.
             </div>
 
             {jetstream.flash.token ? (
@@ -321,9 +326,14 @@ const ApiTokenManager = ({
 };
 
 ApiTokenManager.propTypes = {
-  tokens,
-  availablePermissions,
-  defaultPermissions,
+  tokens: arrayOf(shape({
+    id: number,
+    name: string,
+    last_used_ago: string,
+    abilities: arrayOf(string),
+  })),
+  availablePermissions: arrayOf(string),
+  defaultPermissions: arrayOf(string),
 };
 
 export default ApiTokenManager;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { node } from 'prop-types';
+import { node, string } from 'prop-types';
 import classnames from 'classnames';
 import SectionTitle from './SectionTitle';
 
@@ -9,7 +9,7 @@ const ActionSection = ({
   content = '',
   className = '',
 }) => (
-  <div className={classnames('md:grid md:grid-cols-3 md:gap-6', classNames)}>
+  <div className={classnames('md:grid md:grid-cols-3 md:gap-6', className)}>
     <SectionTitle title={title} description={description} />
 
     <div className="mt-5 md:mt-0 md:col-span-2">
@@ -24,6 +24,7 @@ ActionSection.propTypes = {
   title: node,
   description: node,
   content: node,
+  className: string,
 };
 
 export default ActionSection;

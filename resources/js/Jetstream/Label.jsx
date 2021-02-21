@@ -1,8 +1,9 @@
 import * as React from 'react';
-import PropTypes, { node, string } from 'prop-types';
+import { node, string } from 'prop-types';
 import classnames from 'classnames';
 
 const Label = ({
+  htmlFor,
   value = '',
   children = '',
   className = '',
@@ -11,21 +12,22 @@ const Label = ({
   const mergedClasses = React.useMemo(
     () => classnames(
       'block font-medium text-sm text-gray-700',
-      className
+      className,
     ),
-    [className]
+    [className],
   );
 
   return (
-    <label className={mergedClasses} {...props}>
+    <label htmlFor={htmlFor} className={mergedClasses} {...props}>
       <span>
-        {!!value ? value : children}
+        {value || children}
       </span>
     </label>
   );
 };
 
 Label.propTypes = {
+  htmlFor: string.isRequired,
   value: string,
   children: node,
   className: string,

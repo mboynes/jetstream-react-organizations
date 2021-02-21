@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
 import ValidationErrors from '@/Jetstream/ValidationErrors';
@@ -10,10 +10,12 @@ import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
 
 const TwoFactorChallenge = () => {
-  const { formRef, data, useField, status: formStatus, submit } = useForm({
+  const {
+    formRef, data, useField, status: formStatus, submit,
+  } = useForm({
     code: '',
     recovery_code: '',
-});
+  });
   const isProcessing = formStatus === 'processing';
   const [code, setCode] = useField('code');
   const [recoveryCode, setRecoveryCode] = useField('recovery_code');
@@ -91,6 +93,6 @@ const TwoFactorChallenge = () => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 export default TwoFactorChallenge;

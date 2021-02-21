@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { bool, node } from 'prop-types';
-import { Transition } from '@headlessui/react'
+import { Transition } from '@headlessui/react';
 
 const ActionMessage = ({ on = false, children }) => (
   <div>
@@ -11,7 +11,7 @@ const ActionMessage = ({ on = false, children }) => (
       leaveTo="opacity-0"
     >
       <div className="text-sm text-gray-600">
-          {children}
+        {children}
       </div>
     </Transition>
   </div>

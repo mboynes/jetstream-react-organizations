@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import * as React from 'react';
 import { bool, node } from 'prop-types';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink } from '@inertiajs/inertia-react';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
@@ -13,7 +14,9 @@ import Checkbox from '@/Jetstream/Checkbox';
 import useForm from '@/hooks/useForm';
 
 const Login = ({ status = '', canResetPassword }) => {
-  const { formRef, data, useField, status: formStatus, submit } = useForm({
+  const {
+    formRef, data, useField, status: formStatus, submit,
+  } = useForm({
     email: '',
     password: '',
     remember: false,
@@ -105,7 +108,7 @@ const Login = ({ status = '', canResetPassword }) => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 Login.propTypes = {
   canResetPassword: bool.isRequired,

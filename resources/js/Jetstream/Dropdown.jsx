@@ -61,7 +61,6 @@ const Dropdown = ({
       >
         <div
           className={classnames('absolute z-50 mt-2 rounded-md shadow-lg', widthClass, alignmentClasses)}
-          style="display: none;"
           onClick={() => setIsOpen(false)}
         >
           <div className={classnames('rounded-md ring-1 ring-black ring-opacity-5', contentClasses)}>

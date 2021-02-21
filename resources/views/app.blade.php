@@ -15,9 +15,12 @@
 
         <!-- Scripts -->
         @routes
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        {{-- <script src="{{ mix('js/app.js') }}" defer></script> --}}
+        <script src="http://localhost:8080/js/app.js" defer></script>
     </head>
     <body class="font-sans antialiased">
         @inertia
+
+        <div id="modal-root"></div>
     </body>
 </html>

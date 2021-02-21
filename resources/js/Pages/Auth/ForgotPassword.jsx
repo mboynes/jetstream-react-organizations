@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { node } from 'prop-types';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
 import ValidationErrors from '@/Jetstream/ValidationErrors';
@@ -11,7 +11,9 @@ import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
 
 const ForgotPassword = ({ status = '' }) => {
-  const { formRef, data, useField, status: formStatus, submit } = useForm({ email: '' });
+  const {
+    formRef, data, useField, status: formStatus, submit,
+  } = useForm({ email: '' });
   const isProcessing = formStatus === 'processing';
   const [email, setEmail] = useField('email');
 
@@ -30,7 +32,9 @@ const ForgotPassword = ({ status = '' }) => {
   return (
     <AuthenticationCard logo={<AuthenticationCardLogo />}>
       <div className="mb-4 text-sm text-gray-600">
-        Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
+        Forgot your password? No problem. Just let us know your email address
+        and we will email you a password reset link that will allow you to
+        choose a new one.
       </div>
 
       {status ? (
@@ -66,7 +70,7 @@ const ForgotPassword = ({ status = '' }) => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 ForgotPassword.propTypes = {
   status: node,

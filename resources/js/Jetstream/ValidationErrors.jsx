@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { usePage } from '@inertiajs/inertia-react'
+import { usePage } from '@inertiajs/inertia-react';
 import { string } from 'prop-types';
 
 const ValidationErrors = ({ className = '' }) => {

@@ -12,6 +12,8 @@ import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
 import Button from '@/Jetstream/Button';
 import SecondaryButton from '@/Jetstream/SecondaryButton';
+import { Inertia } from '@inertiajs/inertia';
+import { shape, string } from 'prop-types';
 
 const UpdateProfileInformationForm = ({ user }) => {
   const [photoPreview, setPhotoPreview] = React.useState(null);
@@ -19,7 +21,9 @@ const UpdateProfileInformationForm = ({ user }) => {
 
   const { jetstream } = usePage().props;
 
-  const { isProcessing, status, submit, useField, errors } = useForm({
+  const {
+    data, isProcessing, status, submit, useField, errors,
+  } = useForm({
     name: user.name,
     email: user.email,
     photo: null,
@@ -63,12 +67,11 @@ const UpdateProfileInformationForm = ({ user }) => {
   };
 
   const deletePhoto = () => {
-      Inertia.delete(route('current-user-photo.destroy'), {
-          preserveScroll: true,
-          onSuccess: () => setPhotoPreview(null),
-      });
+    Inertia.delete(route('current-user-photo.destroy'), {
+      preserveScroll: true,
+      onSuccess: () => setPhotoPreview(null),
+    });
   };
-
 
   return (
     <FormSection
@@ -163,6 +166,14 @@ const UpdateProfileInformationForm = ({ user }) => {
       )}
     />
   );
+};
+
+UpdateProfileInformationForm.propTypes = {
+  user: shape({
+    name: string,
+    email: string,
+    profile_photo_url: string,
+  }).isRequired,
 };
 
 export default UpdateProfileInformationForm;

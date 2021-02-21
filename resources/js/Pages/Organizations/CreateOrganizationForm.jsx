@@ -7,10 +7,13 @@ import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
 import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
+import { Inertia } from '@inertiajs/inertia';
 
 const CreateOrganizationForm = () => {
   const { user, errors } = usePage().props;
-  const { status, submit, useField } = useForm({
+  const {
+    data, status, submit, useField,
+  } = useForm({
     name: '',
   });
   const isProcessing = status === 'processing';
@@ -36,7 +39,9 @@ const CreateOrganizationForm = () => {
       form={(
         <>
           <div className="col-span-6">
-            <Label value="Organization Owner" />
+            <span className="block font-medium text-sm text-gray-700">
+              Organization Owner
+            </span>
 
             <div className="flex items-center mt-2">
               <img className="w-12 h-12 rounded-full object-cover" src={user.profile_photo_url} alt="" />

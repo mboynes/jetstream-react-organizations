@@ -4,6 +4,8 @@ import ActionSection from '@/Jetstream/ActionSection';
 import ConfirmationModal from '@/Jetstream/ConfirmationModal';
 import DangerButton from '@/Jetstream/DangerButton';
 import SecondaryButton from '@/Jetstream/SecondaryButton';
+import { Inertia } from '@inertiajs/inertia';
+import { number, shape } from 'prop-types';
 
 const DeleteOrganizationForm = ({ organization }) => {
   const [confirmingOrganizationDeletion, setConfirmingOrganizationDeletion] = React.useState(false);
@@ -26,7 +28,10 @@ const DeleteOrganizationForm = ({ organization }) => {
       content={(
         <>
           <div className="max-w-xl text-sm text-gray-600">
-            Once a organization is deleted, all of its resources and data will be permanently deleted. Before deleting this organization, please download any data or information regarding this organization that you wish to retain.
+            Once a organization is deleted, all of its resources and data will
+            be permanently deleted. Before deleting this organization, please
+            download any data or information regarding this organization that
+            you wish to retain.
           </div>
 
           <div className="mt-5">
@@ -61,6 +66,12 @@ const DeleteOrganizationForm = ({ organization }) => {
       )}
     />
   );
+};
+
+DeleteOrganizationForm.propTypes = {
+  organization: shape({
+    id: number,
+  }).isRequired,
 };
 
 export default DeleteOrganizationForm;

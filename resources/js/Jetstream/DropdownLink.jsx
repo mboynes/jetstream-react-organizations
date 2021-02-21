@@ -2,7 +2,7 @@ import * as React from 'react';
 import { node, string } from 'prop-types';
 import { InertiaLink } from '@inertiajs/inertia-react';
 
-const DropdownLink = ({ href, as = 'link', children }) => {
+const DropdownLink = ({ href = null, as = 'link', children }) => {
   return (
     <div>
       {as === 'button' ? (
@@ -19,7 +19,7 @@ const DropdownLink = ({ href, as = 'link', children }) => {
 };
 
 DropdownLink.propTypes = {
-  href: string.isRequired,
+  href: string,
   as: string,
   children: node,
 };

@@ -1,18 +1,24 @@
 import * as React from 'react';
 import { bool, shape, string } from 'prop-types';
 import classnames from 'classnames';
+import { Inertia } from '@inertiajs/inertia';
+
+import useForm from '@/hooks/useForm';
+
 import FormSection from '@/Jetstream/FormSection';
 import Label from '@/Jetstream/Label';
 import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
 import Button from '@/Jetstream/Button';
-import useForm from '@/hooks/useForm';
+import ActionMessage from '@/Jetstream/ActionMessage';
 
 const UpdateOrganizationNameForm = ({
   organization,
   permissions,
 }) => {
-  const { status, submit, useField, errors } = useForm({
+  const {
+    data, status, submit, useField, errors,
+  } = useForm({
     name: organization.name,
   });
   const isProcessing = status === 'processing';

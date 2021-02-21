@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
-import { Inertia } from '@inertiajs/inertia'
+import { Inertia } from '@inertiajs/inertia';
 import { InertiaLink, usePage } from '@inertiajs/inertia-react';
 import AuthenticationCard from '@/Jetstream/AuthenticationCard';
 import AuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo';
@@ -12,13 +12,15 @@ import Checkbox from '@/Jetstream/Checkbox';
 import useForm from '@/hooks/useForm';
 
 const Register = () => {
-  const { formRef, data, useField, status: formStatus, submit } = useForm({
+  const {
+    formRef, data, useField, status: formStatus, submit,
+  } = useForm({
     name: '',
     email: '',
     password: '',
     password_confirmation: '',
     terms: false,
-});
+  });
   const isProcessing = formStatus === 'processing';
   const [name, setName] = useField('name');
   const [email, setEmail] = useField('email');
@@ -102,7 +104,13 @@ const Register = () => {
               <div className="flex items-center">
                 <Checkbox name="terms" id="terms" checked={terms} onChange={(value) => setTerms(value)} />
                 <div className="ml-2">
-                  I agree to the <a target="_blank" href={route('terms.show')} className="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a> and <a target="_blank" href={route('policy.show')} className="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
+                  I agree to the
+                  {' '}
+                  <a target="_blank" rel="noreferrer" href={route('terms.show')} className="underline text-sm text-gray-600 hover:text-gray-900">Terms of Service</a>
+                  {' '}
+                  and
+                  {' '}
+                  <a target="_blank" rel="noreferrer" href={route('policy.show')} className="underline text-sm text-gray-600 hover:text-gray-900">Privacy Policy</a>
                 </div>
               </div>
             </Label>
@@ -124,6 +132,6 @@ const Register = () => {
       </form>
     </AuthenticationCard>
   );
-}
+};
 
 export default Register;

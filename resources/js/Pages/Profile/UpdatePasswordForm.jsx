@@ -1,18 +1,24 @@
 import * as React from 'react';
 import classnames from 'classnames';
+import { Inertia } from '@inertiajs/inertia';
+
+import useForm from '@/hooks/useForm';
+
 import FormSection from '@/Jetstream/FormSection';
 import Label from '@/Jetstream/Label';
 import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
 import Button from '@/Jetstream/Button';
-import useForm from '@/hooks/useForm';
+import ActionMessage from '@/Jetstream/ActionMessage';
 
 const UpdatePasswordForm = (props) => {
-  const { isProcessing, status, submit, useField, errors } = useForm({
+  const {
+    data, isProcessing, status, submit, useField, errors,
+  } = useForm({
     current_password: '',
     password: '',
     password_confirmation: '',
-});
+  });
   const [currentPassword, setCurrentPassword] = useField('current_password');
   const [password, setPassword] = useField('password');
   const [passwordConfirmation, setPasswordConfirmation] = useField('password_confirmation');
@@ -58,7 +64,7 @@ const UpdatePasswordForm = (props) => {
           <div className="col-span-6 sm:col-span-4">
             <Label htmlFor="current_password" value="Current Password" />
             <Input
-              ref={currentPasswordRef}
+              fieldRef={currentPasswordRef}
               id="current_password"
               type="password"
               className="mt-1 block w-full"
@@ -72,7 +78,7 @@ const UpdatePasswordForm = (props) => {
           <div className="col-span-6 sm:col-span-4">
             <Label htmlFor="password" value="New Password" />
             <Input
-              ref={passwordRef}
+              fieldRef={passwordRef}
               id="password"
               type="password"
               className="mt-1 block w-full"

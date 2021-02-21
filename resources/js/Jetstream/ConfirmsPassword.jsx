@@ -1,12 +1,14 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { func, node } from 'prop-types';
 import classnames from 'classnames';
+import handleKeyPress from '@/util/handleKeyPress';
 import DialogModal from './DialogModal';
 import Input from './Input';
 import InputError from './InputError';
 import Button from './Button';
 import SecondaryButton from './SecondaryButton';
-import handleKeyPress from '@/util/handleKeyPress';
 
 const initialState = {
   confirmingPassword: false,
@@ -44,9 +46,10 @@ function reducer(state, action) {
         ...state,
         password: action.value,
       };
-  }
 
-  return state;
+    default:
+      return state;
+  }
 }
 
 const ConfirmsPassword = ({
@@ -57,7 +60,7 @@ const ConfirmsPassword = ({
   onConfirm,
 }) => {
   const passwordRef = React.useRef(null);
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
   const {
     confirmingPassword,
     password,
@@ -70,27 +73,27 @@ const ConfirmsPassword = ({
   };
 
   const startConfirmingPassword = () => {
-      axios.get(route('password.confirmation')).then(({ data }) => {
-          if (data.confirmed) {
-            onConfirm();
-          } else {
-            dispatch({ type: 'CONFIRMING_PASSWORD' });
+    axios.get(route('password.confirmation')).then(({ data }) => {
+      if (data.confirmed) {
+        onConfirm();
+      } else {
+        dispatch({ type: 'CONFIRMING_PASSWORD' });
 
-            setTimeout(() => passwordRef.current.focus(), 250);
-          }
-      })
+        setTimeout(() => passwordRef.current.focus(), 250);
+      }
+    });
   };
 
   const confirmPassword = () => {
     dispatch({ type: 'PROCESSING' });
 
-      axios.post(route('password.confirm'), { password }).then(() => {
-        closeModal();
-        onConfirm();
-      }).catch(error => {
-        dispatch({ type: 'ERROR', error: error.response.data.errors.password[0] });
-        passwordRef.current.focus();
-      });
+    axios.post(route('password.confirm'), { password }).then(() => {
+      closeModal();
+      onConfirm();
+    }).catch((error) => {
+      dispatch({ type: 'ERROR', error: error.response.data.errors.password[0] });
+      passwordRef.current.focus();
+    });
   };
 
   const setPassword = (value) => dispatch({
@@ -104,12 +107,12 @@ const ConfirmsPassword = ({
 
       <div className="mt-4">
         <Input
-          ref={passwordRef}
+          fieldRef={passwordRef}
           type="password"
           className="mt-1 block w-3/4"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
           onKeyPress={handleKeyPress('Enter', confirmPassword)}
         />
         <InputError message={formError} className="mt-2" />

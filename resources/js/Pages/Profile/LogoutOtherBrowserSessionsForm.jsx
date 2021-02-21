@@ -1,4 +1,7 @@
 import * as React from 'react';
+import {
+  arrayOf, bool, shape, string,
+} from 'prop-types';
 import classnames from 'classnames';
 import ActionSection from '@/Jetstream/ActionSection';
 import ActionMessage from '@/Jetstream/ActionMessage';
@@ -8,22 +11,26 @@ import SecondaryButton from '@/Jetstream/SecondaryButton';
 import Input from '@/Jetstream/Input';
 import InputError from '@/Jetstream/InputError';
 import handleKeyPress from '@/util/handleKeyPress';
+import useForm from '@/hooks/useForm';
+import { Inertia } from '@inertiajs/inertia';
 
 const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
   const [confirmingLogout, setConfirmingLogout] = React.useState(false);
-  const { data, useField, isProcessing, submit, errors } = useForm({ password: '' });
+  const {
+    data, useField, isProcessing, submit, errors, status,
+  } = useForm({ password: '' });
   const [password, setPassword] = useField('password');
   const passwordRef = React.useRef(null);
 
   const confirmLogout = () => {
     setConfirmingLogout(true);
     setTimeout(() => passwordRef.current.focus(), 250);
-  }
+  };
 
   const closeModal = () => {
     setConfirmingLogout(false);
     passwordRef.current.reset();
-  }
+  };
 
   const logoutOtherBrowserSessions = () => {
     submit(new Promise((resolve) => {
@@ -45,22 +52,28 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
       content={(
         <>
           <div className="max-w-xl text-sm text-gray-600">
-            If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.
+            If necessary, you may log out of all of your other browser sessions
+            across all of your devices. Some of your recent sessions are listed
+            below; however, this list may not be exhaustive. If you feel your
+            account has been compromised, you should also update your password.
           </div>
 
           {/* Other Browser Sessions */}
           {sessions.length > 0 ? (
             <div className="mt-5 space-y-6">
               {sessions.map((session, i) => (
+                // eslint-disable-next-line react/no-array-index-key
                 <div className="flex items-center" key={i}>
                   <div>
                     {session.agent.is_desktop ? (
                       <svg fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor" className="w-8 h-8 text-gray-500">
-                        <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                     ) : (
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" className="w-8 h-8 text-gray-500">
-                        <path d="M0 0h24v24H0z" stroke="none"></path><rect x="7" y="4" width="10" height="16" rx="1"></rect><path d="M11 5h2M12 17v.01"></path>
+                        <path d="M0 0h24v24H0z" stroke="none" />
+                        <rect x="7" y="4" width="10" height="16" rx="1" />
+                        <path d="M11 5h2M12 17v.01" />
                       </svg>
                     )}
                   </div>
@@ -72,7 +85,8 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
 
                     <div>
                       <div className="text-xs text-gray-500">
-                        {session.ip_address},
+                        {session.ip_address}
+                        ,
                         {' '}
                         {session.is_current_device ? (
                           <span className="text-green-500 font-semibold">This device</span>
@@ -92,7 +106,7 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
               Log Out Other Browser Sessions
             </Button>
 
-            <ActionMessage on={form.recentlySuccessful} className="ml-3">
+            <ActionMessage on={status === 'recentlySuccessful'} className="ml-3">
               Done.
             </ActionMessage>
           </div>
@@ -104,7 +118,8 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
             title="Log Out Other Browser Sessions"
             content={(
               <>
-                Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.
+                Please enter your password to confirm you would like to log out
+                of your other browser sessions across all of your devices.
 
                 <div className="mt-4">
                   <Input
@@ -141,6 +156,19 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
       )}
     />
   );
+};
+
+LogoutOtherBrowserSessionsForm.propTypes = {
+  sessions: arrayOf(shape({
+    agent: shape({
+      is_desktop: bool,
+      platform: string,
+      browser: string,
+    }),
+    ip_address: string,
+    is_current_device: bool,
+    last_active: string,
+  })).isRequired,
 };
 
 export default LogoutOtherBrowserSessionsForm;

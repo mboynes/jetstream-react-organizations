@@ -1,5 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames';
+import { Inertia } from '@inertiajs/inertia';
 import { usePage } from '@inertiajs/inertia-react';
 
 import ActionSection from '@/Jetstream/ActionSection';
@@ -17,19 +18,6 @@ const TwoFactorAuthenticationForm = (props) => {
 
   const twoFactorEnabled = !enabling && user.two_factor_enabled;
 
-  const enableTwoFactorAuthentication = () => {
-    setEnabling(true);
-
-    Inertia.post('/user/two-factor-authentication', {}, {
-      preserveScroll: true,
-      onSuccess: () => Promise.all([
-        showQrCode(),
-        showRecoveryCodes(),
-      ]),
-      onFinish: () => setEnabling(false),
-    })
-  };
-
   const showQrCode = () => (
     axios.get('/user/two-factor-qr-code')
       .then((response) => setQrCode(response.data.svg))
@@ -40,18 +28,31 @@ const TwoFactorAuthenticationForm = (props) => {
       .then((response) => setRecoveryCodes(response.data))
   );
 
+  const enableTwoFactorAuthentication = () => {
+    setEnabling(true);
+
+    Inertia.post('/user/two-factor-authentication', {}, {
+      preserveScroll: true,
+      onSuccess: () => Promise.all([
+        showQrCode(),
+        showRecoveryCodes(),
+      ]),
+      onFinish: () => setEnabling(false),
+    });
+  };
+
   const regenerateRecoveryCodes = () => (
     axios.post('/user/two-factor-recovery-codes')
-      .then(() => this.showRecoveryCodes())
+      .then(() => showRecoveryCodes())
   );
 
   const disableTwoFactorAuthentication = () => {
     setDisabling(true);
 
     Inertia.delete('/user/two-factor-authentication', {
-        preserveScroll: true,
-        onSuccess: () => setDisabling(false),
-    })
+      preserveScroll: true,
+      onSuccess: () => setDisabling(false),
+    });
   };
 
   return (
@@ -73,7 +74,9 @@ const TwoFactorAuthenticationForm = (props) => {
 
           <div className="mt-3 max-w-xl text-sm text-gray-600">
             <p>
-              When two factor authentication is enabled, you will be prompted for a secure, random token during authentication. You may retrieve this token from your phone's Google Authenticator application.
+              When two factor authentication is enabled, you will be prompted
+              for a secure, random token during authentication. You may retrieve
+              this token from your phone&apos;s Google Authenticator application.
             </p>
           </div>
 
@@ -83,7 +86,9 @@ const TwoFactorAuthenticationForm = (props) => {
                 <div>
                   <div className="mt-4 max-w-xl text-sm text-gray-600">
                     <p className="font-semibold">
-                      Two factor authentication is now enabled. Scan the following QR code using your phone's authenticator application.
+                      Two factor authentication is now enabled. Scan the
+                      following QR code using your phone&apos;s authenticator
+                      application.
                     </p>
                   </div>
 
@@ -95,7 +100,9 @@ const TwoFactorAuthenticationForm = (props) => {
                 <div>
                   <div className="mt-4 max-w-xl text-sm text-gray-600">
                     <p className="font-semibold">
-                      Store these recovery codes in a secure password manager. They can be used to recover access to your account if your two factor authentication device is lost.
+                      Store these recovery codes in a secure password manager.
+                      They can be used to recover access to your account if your
+                      two factor authentication device is lost.
                     </p>
                   </div>
 

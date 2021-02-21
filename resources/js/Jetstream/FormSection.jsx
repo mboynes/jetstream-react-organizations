@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { node } from 'prop-types';
+import { func, node, string } from 'prop-types';
 import classnames from 'classnames';
 import SectionTitle from './SectionTitle';
 
@@ -25,7 +25,7 @@ const FormSection = ({
           <div
             className={classnames(
               'px-4 py-5 bg-white sm:p-6 shadow',
-              actions === '' ? 'sm:rounded-md' : 'sm:rounded-tl-md sm:rounded-tr-md'
+              actions === '' ? 'sm:rounded-md' : 'sm:rounded-tl-md sm:rounded-tr-md',
             )}
           >
             <div className="grid grid-cols-6 gap-6">
@@ -33,7 +33,7 @@ const FormSection = ({
             </div>
           </div>
 
-          {hasActions ? (
+          {actions ? (
             <div className="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6 shadow sm:rounded-bl-md sm:rounded-br-md">
               {actions}
             </div>
@@ -49,7 +49,8 @@ FormSection.propTypes = {
   description: node,
   form: node.isRequired,
   actions: node,
-  onSubmit: fun.isRequired,
+  onSubmit: func.isRequired,
+  className: string,
 };
 
 export default FormSection;

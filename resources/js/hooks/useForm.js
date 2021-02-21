@@ -21,7 +21,7 @@ export default ({
         if (newStatus === 'success') {
           setStatus('recentlySuccessful');
           setTimeout(() => {
-            setStatus((oldStatus) => oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus);
+            setStatus((oldStatus) => (oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus));
           }, 2000);
         } else {
           setStatus('idle');
@@ -33,16 +33,16 @@ export default ({
             formRef.current.reset();
           }
         }
-      })
+      });
     },
-    [formRef, setStatus]
+    [formRef, setStatus],
   );
 
   const setField = (field, value) => setData(
     (oldData) => ({
       ...oldData,
       [field]: typeof value === 'function' ? value(oldData[field]) : value,
-    })
+    }),
   );
 
   const useField = (field) => [

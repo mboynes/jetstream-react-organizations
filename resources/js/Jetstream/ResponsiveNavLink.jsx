@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { bool, string } from 'prop-types';
+import { bool, node, string } from 'prop-types';
 import { InertiaLink } from '@inertiajs/inertia-react';
 import classnames from 'classnames';
 
 const ResponsiveNavLink = ({
-  href,
+  href = null,
   as = 'link',
   active = false,
   children,
@@ -34,9 +34,10 @@ const ResponsiveNavLink = ({
 };
 
 ResponsiveNavLink.propTypes = {
-  href: string.isRequired,
+  href: string,
   as: string,
   active: bool,
+  children: node.isRequired,
 };
 
 export default ResponsiveNavLink;
