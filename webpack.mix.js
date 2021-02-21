@@ -1,4 +1,6 @@
+/* eslint-disable */
 const mix = require('laravel-mix');
+require('laravel-mix-eslint');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,15 +14,20 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .react()
-    .postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
-        require('tailwindcss'),
-        require('autoprefixer'),
-    ])
-    .webpackConfig(require('./webpack.config'))
-    .sourceMaps();
+  .react()
+  .eslint({
+    fix: true,
+    files: './resources/js/**/*.{js,jsx}',
+  })
+  .postCss('resources/css/app.css', 'public/css', [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+  ])
+  .webpackConfig(require('./webpack.config'))
+  .sourceMaps(true)
+  .disableSuccessNotifications();
 
 if (mix.inProduction()) {
-    mix.version();
+  mix.version();
 }
