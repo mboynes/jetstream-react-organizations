@@ -13,7 +13,11 @@ import useForm from '@/hooks/useForm';
 
 const Register = () => {
   const {
-    formRef, data, useField, status: formStatus, submit,
+    data,
+    useField,
+    status: formStatus,
+    submit,
+    reset,
   } = useForm({
     name: '',
     email: '',
@@ -36,6 +40,7 @@ const Register = () => {
       Inertia.post(route('register'), data, {
         onFinish: () => {
           resolve();
+          reset('password', 'password_confirmation');
         },
       });
     }));
@@ -45,7 +50,7 @@ const Register = () => {
     <AuthenticationCard logo={<AuthenticationCardLogo />}>
       <ValidationErrors className="mb-4" />
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div>
           <Label htmlFor="name" value="Name" />
           <Input

@@ -11,7 +11,7 @@ import useForm from '@/hooks/useForm';
 
 const ConfirmPassword = () => {
   const {
-    formRef, data, useField, status, submit,
+    data, useField, status, submit,
   } = useForm({ password: '' });
   const isProcessing = status === 'processing';
   const [password, setPassword] = useField('password');
@@ -21,9 +21,7 @@ const ConfirmPassword = () => {
 
     submit(new Promise((resolve) => {
       Inertia.post(route('password.confirm'), data, {
-        onFinish: () => {
-          resolve();
-        },
+        onFinish: () => resolve('reset'),
       });
     }));
   };
@@ -36,7 +34,7 @@ const ConfirmPassword = () => {
 
       <ValidationErrors className="mb-4" />
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div>
           <Label htmlFor="password" value="Password" />
           <Input

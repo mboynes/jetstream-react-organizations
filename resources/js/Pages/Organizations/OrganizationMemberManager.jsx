@@ -55,6 +55,10 @@ const OrganizationMemberManager = ({
         {
           errorBag: 'addOrganizationMember',
           preserveScroll: true,
+          onSuccess: () => {
+            resolve('success');
+            addOrganizationMemberForm.reset();
+          },
           onFinish: () => resolve(),
         }
       )
@@ -151,7 +155,7 @@ const OrganizationMemberManager = ({
                     type="email"
                     className="mt-1 block w-full"
                     value={addOrganizationMemberForm.data.email}
-                    onChange={(e) => addOrganizationMemberForm.setField('email', e.target.value)}
+                    onChange={(value) => addOrganizationMemberForm.setField('email', value)}
                   />
                   <InputError message={addOrganizationMemberForm.errors.email} className="mt-2" />
                 </div>
@@ -199,11 +203,11 @@ const OrganizationMemberManager = ({
             )}
             actions={(
               <>
-                <ActionMessage on={addOrganizationMemberForm.data.recentlySuccessful} className="mr-3">
+                <ActionMessage on={addOrganizationMemberForm.status === 'recentlySuccessful'} className="mr-3">
                   Added.
                 </ActionMessage>
                 {' '}
-                <Button className={{ 'opacity-25': addOrganizationMemberForm.isProcessing }} disabled={addOrganizationMemberForm.isProcessing}>
+                <Button className={classnames({ 'opacity-25': addOrganizationMemberForm.isProcessing })} disabled={addOrganizationMemberForm.isProcessing}>
                   Add
                 </Button>
               </>
@@ -234,7 +238,7 @@ const OrganizationMemberManager = ({
                         <button
                           type="button"
                           className="cursor-pointer ml-6 text-sm text-red-500 focus:outline-none"
-                          onClick={cancelOrganizationInvitation(invitation)}
+                          onClick={() => cancelOrganizationInvitation(invitation)}
                         >
                           Cancel
                         </button>
@@ -272,7 +276,7 @@ const OrganizationMemberManager = ({
                         <button
                           type="button"
                           className="ml-2 text-sm text-gray-400 underline"
-                          onClick={manageRole(user)}
+                          onClick={() => manageRole(user)}
                         >
                           {displayableRole(user.membership.role)}
                         </button>
@@ -298,7 +302,7 @@ const OrganizationMemberManager = ({
                         <button
                           type="button"
                           className="cursor-pointer ml-6 text-sm text-red-500"
-                          onClick={confirmOrganizationMemberRemoval(user)}
+                          onClick={() => confirmOrganizationMemberRemoval(user)}
                         >
                           Remove
                         </button>
@@ -394,7 +398,7 @@ const OrganizationMemberManager = ({
 
       {/* Remove Organization Member Confirmation Modal */}
       <ConfirmationModal
-        show={state.organizationMemberBeingRemoved}
+        show={!!state.organizationMemberBeingRemoved}
         close={() => updateState({ organizationMemberBeingRemoved: null })}
         title="Remove Organization Member"
         content="Are you sure you would like to remove this person from the organization?"

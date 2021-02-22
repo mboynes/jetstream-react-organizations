@@ -17,6 +17,7 @@ const AppLayout = ({ header = '', children }) => {
   const [showingNavigationDropdown, setShowingNavigationDropdown] = React.useState(false);
 
   const { jetstream, user } = usePage().props;
+  const allOrganizations = Object.values(user.all_organizations);
 
   const switchToOrganization = (organization) => {
     Inertia.put(route('current-organization.update'), {
@@ -100,7 +101,7 @@ const AppLayout = ({ header = '', children }) => {
                                 Switch Organizations
                               </div>
 
-                              {user.all_organizations.map((organization) => (
+                              {allOrganizations.map((organization) => (
                                 <form
                                   key={organization.id}
                                   onSubmit={withPreventDefault(
@@ -258,7 +259,7 @@ const AppLayout = ({ header = '', children }) => {
                       Switch Organizations
                     </div>
 
-                    {user.all_organizations.map((organization) => (
+                    {allOrganizations.map((organization) => (
                       <form onSubmit={withPreventDefault(() => switchToOrganization(organization))} key={organization.id}>
                         <ResponsiveNavLink as="button">
                           <div className="flex items-center">

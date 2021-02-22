@@ -15,7 +15,11 @@ import useForm from '@/hooks/useForm';
 
 const Login = ({ status = '', canResetPassword }) => {
   const {
-    formRef, data, useField, status: formStatus, submit,
+    data,
+    useField,
+    status: formStatus,
+    submit,
+    reset,
   } = useForm({
     email: '',
     password: '',
@@ -34,8 +38,9 @@ const Login = ({ status = '', canResetPassword }) => {
         ...data,
         remember: remember ? 'on' : '',
       }, {
-        onFinish: () => {
+        onError: () => {
           resolve();
+          reset('password');
         },
       });
     }));
@@ -55,7 +60,7 @@ const Login = ({ status = '', canResetPassword }) => {
         </div>
       ) : null}
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div>
           <Label htmlFor="email" value="Email" />
           <Input

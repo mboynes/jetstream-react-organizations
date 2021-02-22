@@ -24,9 +24,7 @@ const CreateOrganizationForm = () => {
       Inertia.post(route('organizations.store'), data, {
         errorBag: 'createOrganization',
         preserveScroll: true,
-        onFinish: () => {
-          resolve();
-        },
+        onError: () => resolve(),
       });
     }));
   };

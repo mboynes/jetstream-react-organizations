@@ -137,7 +137,7 @@ const ConfirmsPassword = ({
   );
 
   return (
-    <div>
+    <span>
       <span onClick={startConfirmingPassword}>
         {children}
       </span>
@@ -149,7 +149,7 @@ const ConfirmsPassword = ({
         content={modalContent}
         footer={modalFooter}
       />
-    </div>
+    </span>
   );
 };
 

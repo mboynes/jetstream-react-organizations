@@ -17,7 +17,11 @@ const UpdateOrganizationNameForm = ({
   permissions,
 }) => {
   const {
-    data, status, submit, useField, errors,
+    data,
+    status,
+    submit,
+    useField,
+    errors,
   } = useForm({
     name: organization.name,
   });
@@ -26,7 +30,7 @@ const UpdateOrganizationNameForm = ({
 
   const updateOrganizationName = () => {
     submit(new Promise((resolve) => {
-      Inertia.post(route('organizations.update', organization), data, {
+      Inertia.put(route('organizations.update', organization), data, {
         errorBag: 'updateOrganizationName',
         preserveScroll: true,
         onSuccess: () => {
@@ -49,7 +53,9 @@ const UpdateOrganizationNameForm = ({
         <>
           {/* Organization Owner Information */}
           <div className="col-span-6">
-            <Label value="Organization Owner" />
+            <span className="block font-medium text-sm text-gray-700">
+              Organization Owner
+            </span>
 
             <div className="flex items-center mt-2">
               <img className="w-12 h-12 rounded-full object-cover" src={organization.owner.profile_photo_url} alt="" />

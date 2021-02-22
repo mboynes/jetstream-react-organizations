@@ -12,7 +12,11 @@ import useForm from '@/hooks/useForm';
 
 const ResetPassword = ({ email, token }) => {
   const {
-    formRef, data, useField, status: formStatus, submit,
+    data,
+    useField,
+    status: formStatus,
+    submit,
+    reset,
   } = useForm({
     email,
     token,
@@ -31,6 +35,7 @@ const ResetPassword = ({ email, token }) => {
       Inertia.post(route('password.update'), data, {
         onFinish: () => {
           resolve();
+          reset('password', 'password_confirmation');
         },
       });
     }));
@@ -40,7 +45,7 @@ const ResetPassword = ({ email, token }) => {
     <AuthenticationCard logo={<AuthenticationCardLogo />}>
       <ValidationErrors className="mb-4" />
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div>
           <Label htmlFor="email" value="Email" />
           <Input

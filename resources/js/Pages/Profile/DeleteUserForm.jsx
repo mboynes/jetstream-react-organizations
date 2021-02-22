@@ -15,18 +15,29 @@ import InputError from '@/Jetstream/InputError';
 const DeleteUserForm = (props) => {
   const [confirmingUserDeletion, setConfirmingUserDeletion] = React.useState(false);
   const {
-    data, useField, isProcessing, submit, errors,
+    data,
+    useField,
+    isProcessing,
+    submit,
+    errors,
+    reset,
   } = useForm({ password: '' });
   const [password, setPassword] = useField('password');
   const passwordRef = React.useRef(null);
 
+  const closeModal = () => {
+    setConfirmingUserDeletion(false);
+    reset();
+  };
+
   const deleteUser = () => {
     submit(new Promise((resolve) => {
-      Inertia.delete(route('current-user.destroy'), data, {
+      Inertia.delete(route('current-user.destroy'), {
+        data,
         errorBag: 'deleteUser',
-        onSuccess: () => setConfirmingUserDeletion(false),
+        onSuccess: () => closeModal(),
         onError: () => passwordRef.current.focus(),
-        onFinish: () => resolve(),
+        onFinish: () => resolve('reset'),
       });
     }));
   };
@@ -53,7 +64,7 @@ const DeleteUserForm = (props) => {
           {/* Delete Account Confirmation Modal */}
           <DialogModal
             show={confirmingUserDeletion}
-            close={() => setConfirmingUserDeletion(false)}
+            close={closeModal}
             title="Delete Account"
             content={(
               <>
@@ -69,7 +80,7 @@ const DeleteUserForm = (props) => {
                     className="mt-1 block w-3/4"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(value) => setPassword(value)}
                     onKeyPress={handleKeyPress('Enter', deleteUser)}
                   />
 
@@ -79,7 +90,7 @@ const DeleteUserForm = (props) => {
             )}
             footer={(
               <>
-                <SecondaryButton onClick={() => setConfirmingUserDeletion(false)}>
+                <SecondaryButton onClick={closeModal}>
                   Never mind
                 </SecondaryButton>
                 {' '}

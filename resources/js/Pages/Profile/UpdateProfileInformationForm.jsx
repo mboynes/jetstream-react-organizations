@@ -30,15 +30,14 @@ const UpdateProfileInformationForm = ({ user }) => {
   });
   const [name, setName] = useField('name');
   const [email, setEmail] = useField('email');
-  const [, setPhoto] = useField('photo');
 
   const updateProfileInformation = () => {
-    if (photoRef.current) {
-      setPhoto(photoRef.current.files[0]);
-    }
-
     submit(new Promise((resolve) => {
-      Inertia.post(route('user-profile-information.update'), data, {
+      Inertia.post(route('user-profile-information.update'), {
+        _method: 'PUT',
+        ...data,
+        photo: photoRef.current ? photoRef.current.files[0] : null,
+      }, {
         errorBag: 'updateProfileInformation',
         preserveScroll: true,
         onSuccess: () => {
@@ -94,7 +93,7 @@ const UpdateProfileInformationForm = ({ user }) => {
                   <img src={user.profile_photo_url} alt={user.name} className="rounded-full h-20 w-20 object-cover" />
                 </div>
               ) : (
-                <div className={classnames('mt-2', { hidden: !!photoPreview })}>
+                <div className="mt-2">
                   {/* New Profile Photo Preview */}
                   <span
                     className="block rounded-full w-20 h-20"

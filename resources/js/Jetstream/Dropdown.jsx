@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import * as React from 'react';
 import { arrayOf, node, string } from 'prop-types';
 import classnames from 'classnames';
@@ -17,7 +19,7 @@ const Dropdown = ({
       if (isOpen && e.keyCode === 27) {
         setIsOpen(false);
       }
-    }
+    };
 
     document.addEventListener('keydown', closeOnEscape);
     return () => document.removeEventListener('keydown', closeOnEscape);
@@ -27,14 +29,16 @@ const Dropdown = ({
     switch (width) {
       case '48':
         return 'w-48';
+
+      default:
+        return '';
     }
-    return '';
   }, [width]);
 
   const alignmentClasses = React.useMemo(() => {
     if (align === 'left') {
       return 'origin-top-left left-0';
-    } else if (align === 'right') {
+    } if (align === 'right') {
       return 'origin-top-right right-0';
     }
     return 'origin-top';

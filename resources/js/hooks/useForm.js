@@ -7,8 +7,39 @@ export default ({
 } = {}) => {
   const [data, setData] = React.useState(initialData);
   const [status, setStatus] = React.useState('idle');
-  const formRef = React.useRef(null);
-  const errors = usePage().props;
+  const { errors } = usePage().props;
+
+  const mounted = React.useRef(false);
+
+  React.useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+
+  const reset = (...fields) => {
+    if (fields.length === 0) {
+      setData(initialData);
+    } else {
+      setData(
+        (currentData) => fields.reduce(
+          (carry, key) => ({ ...carry, [key]: initialData[key] }),
+          currentData
+        )
+      );
+    }
+  };
+
+  // Avoid state updates to unmounted components.
+  const safeSetStatus = React.useCallback(
+    (newStatus) => mounted.current && setStatus(newStatus),
+    [mounted]
+  );
+  const safeReset = React.useCallback(
+    (...fields) => mounted.current && reset(...fields),
+    [mounted]
+  );
 
   const submit = React.useCallback(
     (promise) => {
@@ -16,26 +47,23 @@ export default ({
         return;
       }
 
-      setStatus('processing');
+      safeSetStatus('processing');
       promise.then((newStatus = null) => {
         if (newStatus === 'success') {
-          setStatus('recentlySuccessful');
+          safeSetStatus('recentlySuccessful');
           setTimeout(() => {
-            setStatus((oldStatus) => (oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus));
+            safeSetStatus((oldStatus) => (oldStatus === 'recentlySuccessful' ? 'idle' : oldStatus));
           }, 2000);
         } else {
-          setStatus('idle');
+          safeSetStatus('idle');
         }
 
-        // Reset the form if the status is not "error".
-        if (newStatus !== 'error') {
-          if (formRef.current) {
-            formRef.current.reset();
-          }
+        if (newStatus === 'reset') {
+          safeReset();
         }
       });
     },
-    [formRef, setStatus],
+    [setStatus],
   );
 
   const setField = (field, value) => setData(
@@ -51,7 +79,6 @@ export default ({
   ];
 
   return {
-    formRef,
     useField,
     setField,
     data,
@@ -60,6 +87,7 @@ export default ({
     isProcessing: status === 'processing',
     setStatus,
     submit,
+    reset,
     errors: (errorBag ? errors?.[errorBag] : errors) || {},
   };
 };

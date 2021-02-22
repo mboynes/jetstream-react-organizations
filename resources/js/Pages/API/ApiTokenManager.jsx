@@ -56,7 +56,10 @@ const ApiTokenManager = ({
         {
           preserveScroll: true,
           errorBag: 'createApiToken',
-          onSuccess: () => updateState({ displayingToken: true }),
+          onSuccess: () => {
+            updateState({ displayingToken: true });
+            createApiTokenForm.reset();
+          },
           onFinish: resolve,
         }
       )
@@ -131,7 +134,7 @@ const ApiTokenManager = ({
                 type="text"
                 className="mt-1 block w-full"
                 value={createApiTokenForm.data.name}
-                onChange={(e) => createApiTokenForm.setField('name', e.target.value)}
+                onChange={(value) => createApiTokenForm.setField('name', value)}
                 autoFocus
               />
               <InputError message={createApiTokenForm.errors.name} className="mt-2" />
@@ -235,7 +238,7 @@ const ApiTokenManager = ({
       {/* Token Value Modal */}
       <DialogModal
         show={state.displayingToken}
-        close={updateState({ displayingToken: false })}
+        close={() => updateState({ displayingToken: false })}
         title="API Token"
         content={(
           <>
@@ -259,7 +262,7 @@ const ApiTokenManager = ({
 
       {/* API Token Permissions Modal */}
       <DialogModal
-        show={state.managingPermissionsFor}
+        show={!!state.managingPermissionsFor}
         close={() => updateState({ managingPermissionsFor: null })}
         title="API Token Permissions"
         content={(
@@ -301,13 +304,13 @@ const ApiTokenManager = ({
 
       {/* Delete Token Confirmation Modal */}
       <ConfirmationModal
-        show={state.apiTokenBeingDeleted}
-        close={updateState({ apiTokenBeingDeleted: null })}
+        show={!!state.apiTokenBeingDeleted}
+        close={() => updateState({ apiTokenBeingDeleted: null })}
         title="Delete API Token"
         content="Are you sure you would like to delete this API token?"
         footer={(
           <>
-            <SecondaryButton onClick={updateState({ apiTokenBeingDeleted: null })}>
+            <SecondaryButton onClick={() => updateState({ apiTokenBeingDeleted: null })}>
               Never Mind
             </SecondaryButton>
             {' '}

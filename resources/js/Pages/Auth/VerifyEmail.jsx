@@ -9,7 +9,7 @@ import Button from '@/Jetstream/Button';
 import useForm from '@/hooks/useForm';
 
 const VerifyEmail = ({ status = '' }) => {
-  const { formRef, status: formStatus, submit } = useForm({
+  const { status: formStatus, submit } = useForm({
     email: '',
     password: '',
     remember: false,
@@ -43,7 +43,7 @@ const VerifyEmail = ({ status = '' }) => {
         </div>
       ) : null}
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div className="mt-4 flex items-center justify-between">
           <Button
             className={classnames('ml-4', { 'opacity-25': isProcessing })}

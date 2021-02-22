@@ -11,7 +11,7 @@ import useForm from '@/hooks/useForm';
 
 const TwoFactorChallenge = () => {
   const {
-    formRef, data, useField, status: formStatus, submit,
+    data, useField, status: formStatus, submit,
   } = useForm({
     code: '',
     recovery_code: '',
@@ -45,14 +45,14 @@ const TwoFactorChallenge = () => {
 
       <ValidationErrors className="mb-4" />
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         {!recovery ? (
           <div>
             <Label htmlFor="code" value="Code" />
             <Input
               id="code"
               type="text"
-              inputmode="numeric"
+              inputMode="numeric"
               className="mt-1 block w-full"
               value={code}
               onChange={(value) => setCode(value)}

@@ -13,7 +13,13 @@ import ActionMessage from '@/Jetstream/ActionMessage';
 
 const UpdatePasswordForm = (props) => {
   const {
-    data, isProcessing, status, submit, useField, errors,
+    data,
+    isProcessing,
+    status,
+    submit,
+    reset,
+    useField,
+    errors,
   } = useForm({
     current_password: '',
     password: '',
@@ -32,20 +38,16 @@ const UpdatePasswordForm = (props) => {
         preserveScroll: true,
         onSuccess: () => {
           resolve('success');
-        },
-        onFinish: () => {
-          // TODO: what happens if this is resolved twice?
-          resolve();
+          reset();
         },
         onError: () => {
           if (errors?.updatePassword?.password) {
-            setPassword('');
-            setPasswordConfirmation('');
+            reset('password', 'password_confirmation');
             passwordRef.current.focus();
           }
 
           if (errors?.updatePassword?.current_password) {
-            setCurrentPassword('');
+            reset('current_password');
             currentPasswordRef.current.focus();
           }
         },

@@ -17,8 +17,17 @@ import { Inertia } from '@inertiajs/inertia';
 const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
   const [confirmingLogout, setConfirmingLogout] = React.useState(false);
   const {
-    data, useField, isProcessing, submit, errors, status,
-  } = useForm({ password: '' });
+    data,
+    useField,
+    isProcessing,
+    submit,
+    reset,
+    errors,
+    status,
+  } = useForm({
+    errorBag: 'logoutOtherBrowserSessions',
+    password: '',
+  });
   const [password, setPassword] = useField('password');
   const passwordRef = React.useRef(null);
 
@@ -29,12 +38,13 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
 
   const closeModal = () => {
     setConfirmingLogout(false);
-    passwordRef.current.reset();
+    reset();
   };
 
   const logoutOtherBrowserSessions = () => {
     submit(new Promise((resolve) => {
-      Inertia.delete(route('other-browser-sessions.destroy'), data, {
+      Inertia.delete(route('other-browser-sessions.destroy'), {
+        data,
         preserveScroll: true,
         errorBag: 'logoutOtherBrowserSessions',
         onSuccess: () => closeModal(),
@@ -124,15 +134,15 @@ const LogoutOtherBrowserSessionsForm = ({ sessions, ...props }) => {
                 <div className="mt-4">
                   <Input
                     type="password"
-                    ref={passwordRef}
+                    fieldRef={passwordRef}
                     className="mt-1 block w-3/4"
                     placeholder="Password"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(value) => setPassword(value)}
                     onKeyPress={handleKeyPress('Enter', logoutOtherBrowserSessions)}
                   />
 
-                  <InputError message={errors?.logoutOtherBrowserSessions?.password} className="mt-2" />
+                  <InputError message={errors?.password} className="mt-2" />
                 </div>
               </>
             )}

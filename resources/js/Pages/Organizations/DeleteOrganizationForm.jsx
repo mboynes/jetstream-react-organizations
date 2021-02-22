@@ -15,7 +15,7 @@ const DeleteOrganizationForm = ({ organization }) => {
     setIsProcessing(true);
     Inertia.delete(route('organizations.destroy', organization), {
       errorBag: 'deleteOrganization',
-      onFinish: () => {
+      onError: () => {
         setIsProcessing(false);
       },
     });
@@ -48,7 +48,7 @@ const DeleteOrganizationForm = ({ organization }) => {
             content="Are you sure you want to delete this organization? Once a organization is deleted, all of its resources and data will be permanently deleted."
             footer={(
               <>
-                <SecondaryButton onClick={setConfirmingOrganizationDeletion(false)}>
+                <SecondaryButton onClick={() => setConfirmingOrganizationDeletion(false)}>
                   Never mind
                 </SecondaryButton>
                 {' '}

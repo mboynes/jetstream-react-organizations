@@ -2,8 +2,8 @@ import * as React from 'react';
 import { bool, node } from 'prop-types';
 import { Transition } from '@headlessui/react';
 
-const ActionMessage = ({ on = false, children }) => (
-  <div>
+const ActionMessage = ({ on = false, children, ...props }) => (
+  <div {...props}>
     <Transition
       show={on}
       leave="transition ease-in duration-1000"

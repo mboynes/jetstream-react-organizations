@@ -35,7 +35,7 @@ Index.propTypes = {
     last_used_ago: string,
   })),
   availablePermissions: arrayOf(string),
-  defaultPermissions: string,
+  defaultPermissions: arrayOf(string),
 };
 
 export default Index;

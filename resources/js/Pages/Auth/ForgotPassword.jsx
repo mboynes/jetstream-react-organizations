@@ -12,7 +12,7 @@ import useForm from '@/hooks/useForm';
 
 const ForgotPassword = ({ status = '' }) => {
   const {
-    formRef, data, useField, status: formStatus, submit,
+    data, useField, status: formStatus, submit,
   } = useForm({ email: '' });
   const isProcessing = formStatus === 'processing';
   const [email, setEmail] = useField('email');
@@ -45,7 +45,7 @@ const ForgotPassword = ({ status = '' }) => {
 
       <ValidationErrors className="mb-4" />
 
-      <form ref={formRef} onSubmit={formHandler}>
+      <form onSubmit={formHandler}>
         <div>
           <Label htmlFor="email" value="Email" />
           <Input
